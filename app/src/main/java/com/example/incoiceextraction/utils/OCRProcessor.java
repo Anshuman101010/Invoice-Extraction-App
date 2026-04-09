@@ -1,11 +1,10 @@
-package com.example.incoiceextraction;
+package com.example.incoiceextraction.utils;
 
 import android.graphics.Bitmap;
 import android.widget.TextView;
 import android.util.Log;
 
 import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 

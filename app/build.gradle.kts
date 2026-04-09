@@ -46,4 +46,6 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.camera:camera-view:1.3.0")
     implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.rmtheis:tess-two:9.1.0")
 }

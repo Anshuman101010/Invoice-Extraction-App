@@ -1,4 +1,4 @@
-package com.example.incoiceextraction;
+package com.example.incoiceextraction.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +11,7 @@ public class FieldExtractor {
 
         String date = find(text, "\\d{1,2}/\\d{1,2}/\\d{2,4}");
 
-        String total = find(text, "(?i)(total|grand total|round.*total).*?\\d+\\.\\d{2}");
+        String total = findLast(text,"(?i)total\\s*[:]?\\s*\\d+\\.\\d{2}");
 
         String result =
                 "Invoice/Document Number: " + invoice +
@@ -31,5 +31,18 @@ public class FieldExtractor {
         }
 
         return "Not Found";
+    }
+    private String findLast(String text, String patternString) {
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(text);
+
+        String lastMatch = "Not Found";
+
+        while (matcher.find()) {
+            lastMatch = matcher.group();
+        }
+
+        return lastMatch;
     }
 }

@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnCapture"
-        android:text="Capture Invoice"
+    <EditText
+        android:id="@+id/folderName"
+        android:hint="Enter Folder Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/txtResult"
-        android:text="Extracted Data"
-        android:textSize="18sp"
-        android:paddingTop="20dp"
+    <Button
+        android:id="@+id/createFolderBtn"
+        android:text="Create Folder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <!-- 🔥 ADD THIS -->
+    <ListView
+        android:id="@+id/folderListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
