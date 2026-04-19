@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
-        super(context, "InvoiceDB", null, 2);
+        super(context, "InvoiceDB", null, 3);
     }
 
     @Override
@@ -42,7 +42,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // 🔥 CHECK LOGIN
+    // ================= USER =================
+
+    public boolean registerUser(String email, String password) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(
+                    "INSERT INTO users(email,password) VALUES(?,?)",
+                    new Object[]{email, password}
+            );
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean checkUser(String email, String password) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -57,24 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return exists;
     }
-    public boolean insertFolder(String name) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        try {
-            db.execSQL("INSERT INTO folders(name) VALUES(?)", new Object[]{name});
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    public Cursor getAllFolders() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM folders", null);
-    }
-
-    // 🔥 GET USER ID
     public int getUserId(String email) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -94,22 +91,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userId;
     }
 
-    // 🔥 REGISTER USER (for signup)
-    public boolean registerUser(String email, String password) {
+    // ================= FOLDER =================
+
+    public boolean insertFolder(String name, int userId) {
 
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
             db.execSQL(
-                    "INSERT INTO users(email,password) VALUES(?,?)",
-                    new Object[]{email, password}
+                    "INSERT INTO folders(name,user_id) VALUES(?,?)",
+                    new Object[]{name, userId}
             );
 
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
+    }
+
+    public Cursor getAllFolders(int userId) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT id, name FROM folders WHERE user_id=?",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+
+    public void deleteFolder(int folderId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM scans WHERE folder_id=?", new Object[]{folderId});
+        db.execSQL("DELETE FROM folders WHERE id=?", new Object[]{folderId});
+    }
+
+    // ================= SCANS =================
+
+    public void insertScan(String invoice, String date, String total, int folderId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL(
+                "INSERT INTO scans(invoice,date,total,folder_id) VALUES(?,?,?,?)",
+                new Object[]{invoice, date, total, folderId}
+        );
+    }
+
+    public Cursor getScansByFolder(int folderId) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT invoice, date, total FROM scans WHERE folder_id=?",
+                new String[]{String.valueOf(folderId)}
+        );
     }
 }

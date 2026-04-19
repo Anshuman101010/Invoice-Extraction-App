@@ -43,6 +43,17 @@
             android:backgroundTint="#4A6CF7"
             android:textColor="#FFFFFF"
             app:cornerRadius="12dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpload"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Upload Image"
+            android:textSize="18sp"
+            android:icon="@android:drawable/ic_menu_camera"
+            app:iconPadding="10dp"
+            android:backgroundTint="#4A6CF7"
+            android:textColor="#FFFFFF"
+            app:cornerRadius="12dp"/>
 
         <!-- Result Card -->
 
